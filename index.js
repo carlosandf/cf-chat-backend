@@ -1,4 +1,6 @@
 const server = require('http').createServer()
+const dotenv = require('dotenv')
+dotenv.config()
 
 const io = require('socket.io')(server, {
   cors: {
