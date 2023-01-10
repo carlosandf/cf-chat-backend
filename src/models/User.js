@@ -26,10 +26,6 @@ const userSchema = new Schema(
       type: String,
       default: '',
     },
-    chats: [{
-      type: Schema.Types.ObjectId,
-      ref: 'Chat'
-    }],
     private: {
       type: Boolean,
       default: false
@@ -50,7 +46,7 @@ userSchema.set('toJSON', {
 
 userSchema.pre('save', async function(next) {
   const user = this
-  if (!user.isModified('passwordHash')) return next()
+  if (!user.isModified('password')) return next()
 
   try {
     const saltRounds = await bcrypt.genSalt(10)

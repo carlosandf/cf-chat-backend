@@ -2,7 +2,7 @@ const userRouter = require('express').Router()
 const User = require('../models/User')
 
 userRouter.get('/', async (req, res) => {
-  const publicUsers = await User.find({private: false})
+  const publicUsers = await User.find({})
   res.status(200).json(publicUsers)
 })
 

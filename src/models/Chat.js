@@ -3,8 +3,7 @@ const { Schema, model } = require('mongoose')
 const chatSchema = new Schema(
   {
     members: [{
-      type: Schema.Types.ObjectId,
-      ref: 'User'
+      type: String,
     }]
   },
   { timestamps: true }

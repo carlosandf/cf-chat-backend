@@ -5,13 +5,11 @@ chatsRouter.get('/:userId', async (req, res) => {
   const { userId } = req.params
 
   try {
-    const chats = await Chat.find({
-      members: { $in: [userId] }
-    }).populate('user')
+    const chats = await Chat.find({ members: { $in: [userId] } })
 
     res.status(200).json(chats)
   } catch (error) {
-    res.status(500).json(error)
+    res.status(500).json({error})
   }
 })
 

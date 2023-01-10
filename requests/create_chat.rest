@@ -1,0 +1,9 @@
+POST http://localhost:3000/api/chats
+Content-Type: application/json
+
+{
+  "members": [
+    "63bcd564ee030a95ee39c8ff",
+    "63bcd57bee030a95ee39c903"
+  ]
+}

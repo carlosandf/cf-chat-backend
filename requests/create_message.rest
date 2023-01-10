@@ -1,0 +1,8 @@
+POST http://localhost:3000/api/messages
+Content-Type: application/json
+
+{
+  "sender": "63bcd5aeee030a95ee39c907",
+  "chatId": "63bcd9b9ee030a95ee39c90c",
+  "text": "Hola mundo"
+}
