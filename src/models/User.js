@@ -3,16 +3,40 @@ const bcrypt = require('bcrypt')
 const uniqueValidator = require('mongoose-unique-validator')
 
 
-const userSchema = new Schema({
-  name: { type: String, required: true },
-  lastname: { type: String, required: true },
-  username: { type: String, required: true, unique: true },
-  passwordHash: { type: String, required: true },
-  messages: [{
-    type: Schema.Types.ObjectId,
-    ref: 'Message'
-  }]
-})
+const userSchema = new Schema(
+  {
+    firstname: {
+      type: String,
+      required: true
+    },
+    lastname: {
+      type: String,
+      required: true
+    },
+    username: {
+      type: String,
+      required: true,
+      unique: true
+    },
+    password: {
+      type: String,
+      required: true
+    },
+    profilePicture: {
+      type: String,
+      default: '',
+    },
+    chats: [{
+      type: Schema.Types.ObjectId,
+      ref: 'Chat'
+    }],
+    private: {
+      type: Boolean,
+      default: false
+    }
+  },
+  { timestamps: true }
+)
 
 
 userSchema.set('toJSON', {
@@ -20,7 +44,7 @@ userSchema.set('toJSON', {
     returnedObject.id = returnedObject._id
     delete returnedObject._id
     delete returnedObject.__v
-    delete returnedObject.passwordHash
+    delete returnedObject.password
   }
 })
 
@@ -30,9 +54,9 @@ userSchema.pre('save', async function(next) {
 
   try {
     const saltRounds = await bcrypt.genSalt(10)
-    const hash = await bcrypt.hash(user.passwordHash, saltRounds)
+    const hash = await bcrypt.hash(user.password, saltRounds)
 
-    user.passwordHash = hash
+    user.password = hash
   } catch (error) {
     console.error(error)
     next()
