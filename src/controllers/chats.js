@@ -1,11 +1,21 @@
 const chatsRouter = require('express').Router()
+const userExtractor = require('../middlewares/userExtractor')
 const Chat = require('../models/Chat')
 
-chatsRouter.get('/:userId', async (req, res) => {
-  const { userId } = req.params
+// chatsRouter.get('/', async (req, res) => {
+//   try {
+//     const allChats = await Chat.find({}).populate('messages')
+//     res.status(200).json(allChats)
+//   } catch (error) {
+//     res.json(error)
+//   }
+// })
+
+chatsRouter.get('/', userExtractor, async (req, res) => {
+  const { userId } = req
 
   try {
-    const chats = await Chat.find({ members: { $in: [userId] } })
+    const chats = await Chat.find({ members: { $in: [userId] } }).populate('messages')
 
     res.status(200).json(chats)
   } catch (error) {
@@ -13,7 +23,7 @@ chatsRouter.get('/:userId', async (req, res) => {
   }
 })
 
-chatsRouter.post('/', async (req, res) => {
+chatsRouter.post('/', userExtractor, async (req, res) => {
   const { members } = req.body
 
   try {
@@ -25,4 +35,18 @@ chatsRouter.post('/', async (req, res) => {
   }
 })
 
+chatsRouter.delete('/:userId/:chatId', async (req, res) => {
+  const { userId, chatId } = req.params
+
+  try {
+    const chat = await Chat.findById(chatId)
+    chat.members = chat.members.filter(member => member === userId)
+    await chat.save()
+
+    res.status(204).end()
+  } catch (error) {
+    res.json(error)
+  }
+
+})
 module.exports = chatsRouter

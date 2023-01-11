@@ -1,10 +1,2 @@
-POST http://localhost:3000/api/chats
-Content-Type: application/json
+GET http://localhost:3000/api/chats
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzYmRhN2ZiZjI4MDVkMzdmN2UzYWQ5OCIsInVzZXJuYW1lIjoiYW5kY29kZXIiLCJpYXQiOjE2NzMzODczNTF9.X_bKC7UOJaLDZjnbGF0XQRWu9PmkZeaHMBDu4TjAoEw
-
-{
-  "members": [
-    "63bda7fbf2805d37f7e3ad98",
-    "63bda80ef2805d37f7e3ad9c"
-  ]
-}

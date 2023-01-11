@@ -1,5 +1,7 @@
 const messageRouter = require('express').Router()
 const Message = require('../models/Message')
+const Chat = require('../models/Chat')
+const userExtractor = require('../middlewares/userExtractor')
 
 messageRouter.get('/:chatId', async (req, res) => {
   const { chatId } = req.params
@@ -12,8 +14,11 @@ messageRouter.get('/:chatId', async (req, res) => {
   }
 })
 
-messageRouter.post('/', async (req, res) => {
-  const { sender, chatId, text } = req.body
+messageRouter.post('/', userExtractor, async (req, res) => {
+  const { chatId, text } = req.body
+  const { userId } = req
+
+  const chat = await Chat.findById(chatId)
 
   if(text === '') {
     return res.status(400).json({
@@ -22,13 +27,16 @@ messageRouter.post('/', async (req, res) => {
   }
 
   const newMessage = new Message({
-    sender,
-    chatId,
+    sender: userId,
+    chatId: chat._id,
     text
   })
 
   try {
     const savedMessage = await newMessage.save()
+    chat.messages = chat.messages.concat(savedMessage._id)
+    await chat.save()
+
     res.status(200).json(savedMessage)
   } catch (error) {
     res.status(400).json(error)
