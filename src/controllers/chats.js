@@ -15,7 +15,7 @@ chatsRouter.get('/', userExtractor, async (req, res) => {
   const { userId } = req
 
   try {
-    const chats = await Chat.find({ members: { $in: [userId] } }).populate('messages')
+    const chats = await Chat.find({ members: { $in: [userId] } }).populate(['messages','members'])
 
     res.status(200).json(chats)
   } catch (error) {
