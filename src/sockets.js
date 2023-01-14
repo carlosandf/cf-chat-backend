@@ -8,8 +8,9 @@ module.exports = (io) => {
     const { chatId } = socket.handshake.query
     socket.join(chatId)
 
-    socket.on(NEW_MESSAGE, (data => {
-      io.in(chatId).emit(NEW_MESSAGE, data)
+    socket.on(NEW_MESSAGE, (message => {
+      console.log(message)
+      io.in(chatId).emit(NEW_MESSAGE, message)
     }))
 
     socket.on('disconnect', () => {
