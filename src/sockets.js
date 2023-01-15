@@ -1,4 +1,4 @@
-const Message = require('./models/Message')
+const saveMessage = require('./services/saveMessage')
 
 const NEW_MESSAGE = 'newMessage'
 
@@ -11,19 +11,10 @@ module.exports = (io) => {
     socket.join(chatId)
 
     socket.on(NEW_MESSAGE, (message => {
+      const savedMessage = saveMessage(message, chatId)
+      savedMessage.then(console.log)
 
-      const sendMessage = async () => {
-        const newMessage = new Message({
-          ...message
-        })
-
-        const savedMessage = await newMessage.save()
-        io.in(chatId).emit(NEW_MESSAGE, savedMessage)
-      }
-
-      sendMessage()
-
-      console.log(message)
+      io.in(chatId).emit(NEW_MESSAGE, message)
     }))
 
     socket.on('disconnect', () => {

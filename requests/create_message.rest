@@ -3,6 +3,6 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzYmRhN2ZiZjI4MDVkMzdmN2UzYWQ5OCIsInVzZXJuYW1lIjoiYW5kY29kZXIiLCJpYXQiOjE2NzMzODczNTF9.X_bKC7UOJaLDZjnbGF0XQRWu9PmkZeaHMBDu4TjAoEw
 
 {
-  "chatId": "63bda84af2805d37f7e3ada0",
-  "text": "Mensaje utilizando el middleware userExtractor"
+  "chatId": "63c070fc04ee33c4dbb03e02",
+  "text": "Hola pedro"
 }
