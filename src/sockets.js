@@ -1,4 +1,4 @@
-const saveMessage = require('./services/saveMessage')
+const { saveMessage, getMessages } = require('./services/saveMessage')
 
 const NEW_MESSAGE = 'newMessage'
 
@@ -11,10 +11,17 @@ module.exports = (io) => {
     socket.join(chatId)
 
     socket.on(NEW_MESSAGE, (message => {
-      const savedMessage = saveMessage(message, chatId)
-      savedMessage.then(console.log)
+      saveMessage(message, chatId)
 
       io.in(chatId).emit(NEW_MESSAGE, message)
+    }))
+
+    socket.on('getMessages', (chatId => {
+      console.log(chatId)
+      const messages = getMessages(chatId)
+      messages.then(data => {
+        console.log(data)
+      })
     }))
 
     socket.on('disconnect', () => {

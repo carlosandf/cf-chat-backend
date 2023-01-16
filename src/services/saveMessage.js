@@ -16,9 +16,8 @@ const saveMessage = async (message, chatId) => {
 }
 
 const getMessages = async (chatId) => {
-  const messages = await Message.find({chatId})
+  const messages = await Message.find({chatId: chatId})
   return messages
 }
 
-module.exports = { getMessages }
-module.exports = saveMessage
+module.exports = { saveMessage, getMessages }
