@@ -12,7 +12,7 @@ const saveMessage = async (message, chatId) => {
   chat.messages = chat.messages.concat(savedMessage._id)
   await chat.save()
 
-  return savedMessage
+  return savedMessage.toJSON()
 }
 
 const getMessages = async (chatId) => {
