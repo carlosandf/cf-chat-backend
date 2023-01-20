@@ -1,4 +1,4 @@
-const { addNewUser, removeUser } = require('./utils/onlineUsersUtils')
+const { addNewUser, removeUser, getUser } = require('./utils/onlineUsersUtils')
 const { saveMessage } = require('./services/saveMessage')
 
 // const NEW_MESSAGE = 'newMessage'
@@ -9,11 +9,12 @@ let onlineUsers = []
 module.exports = (io) => {
 
   io.on('connection', (socket) => {
-    console.log('Connected', socket.handshake.query)
+    //console.log('Connected', socket.handshake.query)
     console.log('Connected', socket.id)
 
-    socket.on('newUser', (username) => {
-      onlineUsers = addNewUser(onlineUsers, username, socket.id)
+    socket.on('newUser', (userId) => {
+      onlineUsers = addNewUser(onlineUsers, userId, socket.id)
+      console.log(onlineUsers)
     })
 
 
@@ -21,12 +22,14 @@ module.exports = (io) => {
       socket.join(chatId)
     })
 
-    socket.on('newMessage', data => {
-      console.log(data)
+    socket.on('newMessage', ({message, chatId, receiverId}) => {
+      io.in(chatId).emit('sendMessage', message)
 
-      saveMessage(data.message, data.chatId)
-
-      io.in(data.chatId).emit('sendMessage', data.message)
+      saveMessage(message, chatId)
+        .then(message => {
+          const reseiver = getUser(onlineUsers, receiverId)
+          io.in(reseiver.socketId).emit('lastMessage', message)
+        })
     })
 
     socket.on('disconnect', () => {

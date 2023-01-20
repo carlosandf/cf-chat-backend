@@ -23,6 +23,18 @@ chatsRouter.get('/', userExtractor, async (req, res) => {
   }
 })
 
+chatsRouter.get('/:chatId', async (req, res) => {
+  const { chatId } = req.params
+
+  try {
+    const chat = await Chat.findById(chatId).populate('messages')
+
+    res.status(200).json(chat)
+  } catch (error) {
+    res.status(500).json({error})
+  }
+})
+
 chatsRouter.post('/', userExtractor, async (req, res) => {
   const { members } = req.body
 
