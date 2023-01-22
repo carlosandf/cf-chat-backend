@@ -28,7 +28,7 @@ module.exports = (io) => {
       saveMessage(message, chatId)
         .then(message => {
           const reseiver = getUser(onlineUsers, receiverId)
-          io.in(reseiver.socketId).emit('lastMessage', message)
+          io.in(reseiver?.socketId).emit('lastMessage', message)
         })
     })
 

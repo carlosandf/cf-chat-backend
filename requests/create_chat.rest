@@ -4,7 +4,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzYmRhN2ZiZ
 
 {
   "members": [
-    "63bda7fbf2805d37f7e3ad98",
-    "63bda80ef2805d37f7e3ad9c"
+    "63bda80ef2805d37f7e3ad9c",
+    "63cc7c014bdca5193809419e"
   ]
 }
