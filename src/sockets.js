@@ -22,6 +22,10 @@ module.exports = (io) => {
       socket.join(chatId)
     })
 
+    socket.on('exit', chatId => {
+      socket.leave(chatId)
+    })
+
     socket.on('newMessage', ({message, chatId, receiverId}) => {
       io.in(chatId).emit('sendMessage', message)
 

@@ -2,7 +2,7 @@ const Message = require('../models/Message')
 const Chat = require('../models/Chat')
 
 const saveMessage = async (message, chatId) => {
-  const chat = await Chat.findById(chatId).populate(['messages','members'])
+  const chat = await Chat.findOne({id: chatId}).populate(['messages','members'])
 
   const newMessage = new Message({
     ...message
